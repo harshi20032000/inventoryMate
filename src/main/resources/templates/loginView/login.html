@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+			text-align: center;
+			/* Center the content in the container */
+		}
+
+		h2 {
+			color: #333;
+			text-align: center;
+			/* Center the heading */
+		}
+
+		form {
+			margin-top: 20px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+			color: #333;
+			text-align: center;
+			/* Center the label text */
+		}
+
+		input[type="text"],
+		input[type="password"] {
+			width: 90%;
+			padding: 10px;
+			margin-bottom: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			text-transform: uppercase;
+		}
+
+		input[type="submit"] {
+			background-color: #333;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+			margin: 0 auto;
+			/* Center the submit button */
+		}
+
+		input[type="submit"]:hover {
+			background-color: #555;
+		}
+
+		footer {
+			text-align: center;
+			background-color: #fff;
+			color: #333;
+			margin-top: 20px;
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+		}
+
+		b {
+			color: #333;
+		}
+
+		#logo {
+			width: 200px;
+			height: auto;
+			margin: 20px auto;
+			display: block;
+		}
+
+		#owner-logo-container {
+			bottom: 10px;
+			right: 10px;
+			width: 120px;
+			height: auto;
+		}
+
+		#ownerlogo {
+			position: relative;
+			bottom: 0px;
+			left: 670px;
+			width: 120px;
+			height: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<!-- Logo -->
+		<img src="/inventorybilling/assets/logo_nobg.png" alt="Your Logo" id="logo">
+		<h2>Login</h2>
+		<form action="login" method="post">
+			<label for="email">Username:</label>
+			<input type="text" name="email" id="email">
+
+			<label for="password">Password:</label>
+			<input type="password" name="password" id="password">
+
+			<input type="submit" value="Login">
+		</form>
+	</div>
+	<footer>
+		<b th:text="${msg}"></b>
+		<b>.....On Login Page.....</b>
+		<div id="owner-logo-container">
+			<img src="/inventorybilling/assets/software_owner_logo.png" alt="Your Company Logo" id="ownerlogo">
+		</div>
+	</footer>
+</body>
+
+</html>

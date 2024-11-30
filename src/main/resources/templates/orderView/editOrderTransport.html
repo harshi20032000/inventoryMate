@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Update Transport and Bilty Details</title>
+	<!-- Add your CSS styles in the <style> tag -->
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+			margin: 0;
+			padding: 0;
+			text-align: left;
+		}
+
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+		}
+
+		h3 {
+			color: #333;
+			margin-bottom: 10px;
+		}
+
+		p {
+			color: #777;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 0 auto;
+		}
+
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 10px;
+			text-align: left;
+			background-color: #f4f4f4;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		a {
+			display: inline-block;
+			margin: 10px 0;
+			text-decoration: none;
+			color: #007bff;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		caption,
+		p {
+			padding: 10px;
+			text-align: left;
+			color: #000;
+			font-weight: bold;
+		}
+
+		.btn {
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 20px;
+			cursor: pointer;
+		}
+
+		.btn-secondary {
+			background-color: #555;
+		}
+
+		.btn-secondary:hover {
+			background-color: #333;
+		}
+
+		footer {
+			text-align: center;
+			background-color: #fff;
+			color: #333;
+			margin-top: 20px;
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+			display: flex;
+			justify-content: space-between;
+			flex-direction: column;
+		}
+
+		.form-group {
+			margin-bottom: 15px;
+		}
+
+		label {
+			font-weight: bold;
+		}
+
+		select,
+		input[type="text"] {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			text-transform: uppercase;
+		}
+		#logo {
+			width: 200px;
+			height: auto;
+			margin: 20px auto;
+			display: block;
+		}
+
+		#owner-logo-container {
+			bottom: 10px;
+			right: 10px;
+			width: 120px;
+			height: auto;
+		}
+
+		#ownerlogo {
+			position: relative;
+			bottom: 0px;
+			left: 670px;
+			width: 120px;
+			height: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<a href="/inventorybilling/showLanding">
+			<img src="/inventorybilling/assets/logo_nobg.png" alt="Your Logo" id="logo">
+		</a>
+		<div>
+			<h3>Update Transport and Bilty Details</h3>
+			<div style="display: flex; justify-content: space-between;">
+				<p>Order ID: <span th:text="${order.orderId}"></span></p>
+				<p>Order Date: <span th:text="${order.orderDate}"></span></p>
+			</div>
+		</div>
+
+
+		<!-- Display Selected Rep Details -->
+		<div th:if="${order.reps != null}">
+			<table>
+				<caption>Selected Rep Details</caption>
+				<tbody>
+					<tr>
+						<td>Reps ID:</td>
+						<td th:text="${order.reps.repId} ?: 'N/A'"></td>
+					</tr>
+					<tr>
+						<td>Reps Name:</td>
+						<td th:text="${order.reps.repName} ?: 'N/A'"></td>
+					</tr>
+					<tr>
+						<td>Reps Location:</td>
+						<td th:text="${order.reps.repLocation} ?: 'N/A'"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<!-- Display Party Details -->
+		<div th:if="${order.party != null}">
+			<table>
+				<caption>Party Details</caption>
+				<tbody>
+					<tr>
+						<td>Party ID:</td>
+						<td th:text="${order.party.partyId} ?: 'N/A'"></td>
+					</tr>
+					<tr>
+						<td>Party Name:</td>
+						<td th:text="${order.party.partyName} ?: 'N/A'"></td>
+					</tr>
+					<tr>
+						<td>Party Location:</td>
+						<td th:text="${order.party.partyLocation} ?: 'N/A'"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+		<table>
+			<caption>....Order Line Items....</caption>
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th>Rate</th>
+					<th>Quantity</th>
+					<th>Total Price</th>
+					<th>Warehouse-Quantities</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="lineItem : ${order.orderLineItems}">
+					<td th:text="${lineItem.product?.brandName} ?: 'N/A'"></td>
+					<td th:text="${lineItem.rate}"></td>
+					<td th:text="${lineItem.quantity}"></td>
+					<td th:text="${lineItem.rate * lineItem.quantity}"></td>
+					<td colspan="4">
+						<table>
+							<thead>
+								<tr>
+									<th>WareName</th>
+									<th>Quantity</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="entry : ${lineItem.orderWarehouseQuantities}">
+									<td th:text="${entry.key.wareName}"></td>
+									<td th:text="${entry.value}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h3 th:if="${#lists.isEmpty(order.orderLineItems)}">No order line items available.</h3>
+
+		<!-- Display Total Bill Amount, Remaining Amount, and Total Order Quantity -->
+		<div th:if="${totalAmount != null or remainingAmount != null or totalQuantities != null}">
+			<table>
+				<caption>Total Order Summary</caption>
+				<thead>
+					<tr>
+						<th>Details</th>
+						<th>Amount/Quantity</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${totalQuantities != null and totalQuantities > 0}">
+						<td>Total Order Quantity:</td>
+						<td th:text="${totalQuantities}"></td>
+					</tr>
+					<tr th:if="${totalAmount != null and totalAmount > 0}">
+						<td>Total Bill Amount:</td>
+						<td th:text="${totalAmount}"></td>
+					</tr>
+					<tr th:if="${remainingAmount != null and remainingAmount > 0}">
+						<td>Remaining Amount:</td>
+						<td th:text="${remainingAmount}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<!-- Display Transport Details -->
+		<div th:if="${order.transportAndBuiltNumber != null}">
+			<table>
+				<caption>Transport Details</caption>
+				<tbody>
+					<tr th:if="${order.transportAndBuiltNumber.transport != null}">
+						<td>Transport Name:</td>
+						<td th:text="${order.transportAndBuiltNumber.transport.transportName} ?: 'N/A'"></td>
+					</tr>
+					<tr th:if="${order.transportAndBuiltNumber.transport != null}">
+						<td>Contact Details:</td>
+						<td th:text="${order.transportAndBuiltNumber.transport.contactDetails} ?: 'N/A'"></td>
+					</tr>
+					<tr>
+						<td>Bilty No:</td>
+						<td th:text="${order.transportAndBuiltNumber.builtNumber} ?: 'N/A'"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<table th:if="${not #lists.isEmpty(order.payments)}">
+			<caption>....Payment Details....</caption>
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Mode</th>
+					<th>Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="payment : ${order.payments}">
+					<td th:text="${payment.payDate}"></td>
+					<td th:text="${payment.payAmount}"></td>
+					<td th:text="${payment.payMode}"></td>
+					<td th:text="${payment.payType}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p th:if="${#lists.isEmpty(order.payments)}">No payment information yet.</p>
+
+		<table>
+			<caption>Order Status History</caption>
+			<thead>
+				<tr>
+					<th>Update Timestamp</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="change : ${order.statusHistory}">
+					<td th:text="${change.updateTimestamp}"></td>
+					<td th:text="${change.orderStatus}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div>
+			<!-- Create a form for updating transport details -->
+			<form action="/inventorybilling/editOrderTransport" method="post">
+				<h3>Update Transport Details</h3>
+
+				<!-- Select a transport from the list -->
+				<div class="form-group">
+					<label for="selectedTransport">Select Transport:</label>
+					<select class="form-control" name="transportId">
+						<option th:each="transport : ${transportList}" th:value="${transport.transportId}"
+							th:text="${transport.transportName}"></option>
+					</select>
+				</div>
+
+				<!-- Update the Builty Number -->
+				<div class="form-group">
+					<label for="builtyNumber">Builty Number:</label>
+					<input type="text" class="form-control" name="biltyNumber" />
+				</div>
+
+				<!-- Add hidden input for orderId -->
+				<input type="hidden" name="orderId" th:value="${order.orderId}" />
+
+				<!-- Add a "Save Changes" button to update the transport details -->
+				<button type="submit" class="btn btn-info">Save Changes</button>
+			</form>
+
+
+		</div>
+		<footer>
+			<!-- Add a "Back to Order Details" button -->
+			<a th:href="@{'/orderDetails/'+ ${order.orderId}}" class="btn btn-secondary">Back to Order Details</a>
+
+			<!-- Add a "Back to Order List" button -->
+			<a href="/inventorybilling/showOrderList" class="btn btn-secondary">Back to Order List</a>
+			<a href="/inventorybilling/showLanding" class="btn btn-secondary">Home</a>
+
+			<b>.....On edit Order - Transport Details Page.....</b>
+		</footer>
+		<div id="owner-logo-container">
+			<img src="/inventorybilling/assets/software_owner_logo.png" alt="Your Company Logo" id="ownerlogo">
+		</div>
+	</div>
+
+</body>
+
+</html>

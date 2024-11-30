@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Order - Select Reps</title>
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            background-color: #17a2b8;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #117a8b;
+        }
+
+        .btn-secondary {
+            background-color: #555;
+            margin-top: 0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: #17a2b8;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        #logo {
+            width: 200px;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+        }
+
+        #owner-logo-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #ownerlogo {
+            width: 120px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/inventorybilling/showLanding">
+            <img src="/inventorybilling/assets/logo_nobg.png" alt="Your Logo" id="logo">
+        </a>
+        <h2>Book Order</h2>
+        <p>Order Date: <span th:text="${currentDate}"></span></p>
+        <form action="/inventorybilling/bookOrderSaveReps" method="post">
+            <div class="form-group">
+                <label for="selectedRep">Select a Sales Representative:</label>
+                <select name="selectedRep" id="selectedRep" class="form-control">
+                    <option th:each="rep : ${repsList}" th:value="${rep.repId}"
+                        th:text="${rep.repId}+' - '+${rep.repName} + ' - ' + ${rep.repLocation}"></option>
+                </select>
+            </div>
+            <input type="hidden" name="currentDate" th:value="${currentDate}" />
+            <button type="submit" class="btn btn-info">Next</button>
+        </form>
+        <footer>
+            <a href="/inventorybilling/showAddReps" class="btn btn-secondary">Add New Reps</a>
+            <a href="/inventorybilling/showLanding" class="btn btn-secondary">Home</a>
+        </footer>
+        <div id="owner-logo-container">
+            <img src="/inventorybilling/assets/software_owner_logo.png" alt="Your Company Logo" id="ownerlogo">
+        </div>
+    </div>
+</body>
+</html>

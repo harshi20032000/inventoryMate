@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> Party Details </title>
+
+	<!-- ... (head content) ... -->
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+			margin: 0;
+			padding: 0;
+		}
+
+		#logo {
+			width: 200px;
+			height: auto;
+			margin: 20px auto;
+			display: block;
+		}
+
+		#owner-logo-container {
+			bottom: 10px;
+			right: 10px;
+			width: 120px;
+			height: auto;
+		}
+
+		#ownerlogo {
+			position: relative;
+			bottom: 0px;
+			left: 670px;
+			width: 120px;
+			height: auto;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ccc;
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #333;
+			color: #fff;
+		}
+
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+
+		h2 {
+			color: #333;
+			margin-bottom: 20px;
+		}
+
+		p {
+			margin: 10px 0;
+		}
+
+		a.button {
+			display: inline-block;
+			text-decoration: none;
+			background-color: #333;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			transition: background-color 0.3s;
+			margin: 5px;
+		}
+
+		a.button:hover {
+			background-color: #555;
+			text-decoration: underline;
+		}
+
+		a.button.button-info {
+			background-color: #17a2b8;
+		}
+
+		b {
+			display: block;
+			margin-top: 20px;
+			font-weight: bold;
+			color: rgb(0, 0, 0);
+		}
+
+		footer {
+			text-align: center;
+			background-color: #fff;
+			color: #333;
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 20px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+			display: flex;
+			justify-content: space-between;
+			flex-direction: column;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<a href="/inventorybilling/showLanding">
+			<img src="/inventorybilling/assets/logo_nobg.png" alt="Your Logo" id="logo">
+		</a>
+		<h2>Party Details Page</h2>
+		<p>ID: <span th:text="${party.partyId}"></span></p>
+		<p>Name: <span th:text="${party.partyName}"></span></p>
+		<p>Location: <span th:text="${party.partyLocation}"></span></p>
+
+		<!-- Description for the table -->
+		<!-- Display a table of orders -->
+		<table class="table table-bordered">
+			<caption>table of orders for this party</caption>
+			<thead>
+				<tr>
+					<th>OrderId</th>
+					<th>OrderDate</th>
+					<th>Reps</th>
+					<th>TotalAmount</th>
+					<th>PendingAmount</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Use Thymeleaf to loop through orders and display them -->
+				<tr th:each="order : ${orders}">
+					<td th:text="${order.orderId}"></td>
+					<td th:text="${order.orderDate}"></td>
+					<td th:if="${order.reps != null and !#strings.isEmpty(order.reps.repName) and !#strings.isEmpty(order.reps.repLocation)}"
+						th:text="${order.reps.repName + ' ' + order.reps.repLocation}"></td>
+					<td
+						th:unless="${order.reps != null and !#strings.isEmpty(order.reps.repName) and !#strings.isEmpty(order.reps.repLocation)}">
+						N/A</td>
+
+					<!-- Check if totalAmount is not null and greater than zero before displaying -->
+					<td th:if="${order.totalBillAmount != null and order.totalBillAmount > 0}"
+						th:text="${order.totalBillAmount}">
+					</td>
+					<td th:unless="${order.totalBillAmount != null and order.totalBillAmount > 0}">N/A</td>
+					<!-- Check if remainingAmount is not null and greater than zero before displaying -->
+					<td th:if="${order.remainingBillAmount != null and order.remainingBillAmount > 0}"
+						th:text="${order.remainingBillAmount}"></td>
+					<td th:unless="${order.remainingBillAmount != null and order.remainingBillAmount > 0}">N/A</td>
+					<td>
+						<a th:href="'/inventorybilling/orderDetails/' + ${order.orderId}"
+							class="button button-info">View
+							Details</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div>
+			<p>Total Bill Amount: <span th:text="${totalBillAmount}"></span></p>
+			<p>Remaining Bill Amount: <span th:text="${remainingBillAmount}"></span></p>
+		</div>
+		<footer>
+			<!-- Add a "Back to Party List" button -->
+			<a href="/inventorybilling/showPartyList" class="button">Back to Party List</a>
+			<!-- Add buttons to navigate to the homepage and add party page -->
+			<a href="/inventorybilling/showLanding" class="button">Home</a>
+			<a href="/inventorybilling/showAddParty" class="button">Add Party</a>
+			<b>.....On Party Details Page.....</b>
+		</footer>
+		<!-- Company Logo -->
+		<div id="owner-logo-container">
+			<img src="/inventorybilling/assets/software_owner_logo.png" alt="Your Company Logo" id="ownerlogo">
+		</div>
+	</div>
+</body>
+
+</html>

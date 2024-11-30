@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- ... (head content) ... -->
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #f2f2f2;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+		}
+
+		.form-group {
+			margin: 20px 0;
+		}
+
+		h2 {
+			color: #333;
+			margin-bottom: 20px;
+		}
+
+		.form-group {
+			margin-bottom: 15px;
+		}
+
+		label {
+			font-weight: bold;
+		}
+
+		input[type="text"] {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			text-transform: uppercase;
+		}
+
+		a {
+			display: inline-block;
+			margin: 5px 0;
+			text-decoration: none;
+			color: #007bff;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		.btn {
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 20px;
+			cursor: pointer;
+		}
+
+		.btn-secondary {
+			background-color: #555;
+		}
+
+		.btn-secondary:hover {
+			background-color: #333;
+		}
+
+		.btn-info {
+			background-color: #17a2b8;
+		}
+
+		.btn-info:hover {
+			background-color: #117a8b;
+		}
+
+		b {
+			display: block;
+			margin-top: 20px;
+			font-weight: bold;
+			color: #007bff;
+		}
+
+		footer {
+			text-align: center;
+			background-color: #fff;
+			color: #333;
+			max-width: 800px;
+			/* Add this property */
+			margin: 20px auto;
+			padding: 20px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+			display: flex;
+			justify-content: space-between;
+			flex-direction: column;
+		}
+
+		#logo {
+			width: 200px;
+			height: auto;
+			margin: 20px auto;
+			display: block;
+		}
+
+		#owner-logo-container {
+			bottom: 10px;
+			right: 10px;
+			width: 120px;
+			height: auto;
+		}
+
+		#ownerlogo {
+			position: relative;
+			bottom: 0px;
+			left: 670px;
+			width: 120px;
+			height: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<a href="/inventorybilling/showLanding">
+			<img src="/inventorybilling/assets/logo_nobg.png" alt="Your Logo" id="logo">
+		</a>
+		<h2>Add Transport</h2>
+		<form action="/inventorybilling/addTransport" method="post" th:object="${transport}">
+			<div class="form-group">
+				<label for="transportName">Name:</label>
+				<input type="text" id="transportName" name="transportName" th:field="*{transportName}"
+					class="form-control" required />
+			</div>
+			<div class="form-group">
+				<label for="contactDetails">Contact Details:</label>
+				<input type="text" id="contactDetails" name="contactDetails" th:field="*{contactDetails}"
+					class="form-control" required />
+			</div>
+
+			<!-- Add a "Save" button to submit the form -->
+			<button type="submit" class="btn btn-info">Save</button>
+		</form>
+		<footer>
+			<!-- Add a "Back to Transport List" button -->
+			<a href="/inventorybilling/showTransportList" class="btn btn-secondary">Back to Transport List</a>
+
+			<!-- Add buttons to navigate to the homepage -->
+			<a href="/inventorybilling/showLanding" class="btn btn-secondary">Home</a>
+			<b>.....On Add Transport Page.....</b>
+		</footer>
+		<div id="owner-logo-container">
+			<img src="/inventorybilling/assets/software_owner_logo.png" alt="Your Company Logo" id="ownerlogo">
+		</div>
+	</div>
+</body>
+
+</html>

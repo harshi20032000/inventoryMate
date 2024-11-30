@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Order - Select Products</title>
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        #logo {
+            width: 200px;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        caption, p {
+            padding: 10px;
+            text-align: left;
+            color: #000;
+            font-weight: bold;
+        }
+
+       .btn {
+            background-color: #17a2b8;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #117a8b;
+        }
+
+        .btn-secondary {
+            background-color: #555;
+            margin-top: 0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #333;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+        }
+
+        .btn-info:hover {
+            background-color: #117a8b;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        #owner-logo-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #ownerlogo {
+            width: 120px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/inventorybilling/showLanding">
+            <img src="/inventorybilling/assets/logo_nobg.png" alt="Your Logo" id="logo">
+        </a>
+        <h2>Book Order - Select Products</h2>
+
+        <!-- Display Order Details -->
+        <div>
+            <h3>Order Details</h3>
+            <div style="display: flex; justify-content: space-between;">
+                <p>Order ID: <span th:text="${order.orderId}"></span></p>
+                <p>Order Date: <span th:text="${order.orderDate}"></span></p>
+            </div>
+        </div>
+
+        <!-- Display Selected Rep Details -->
+        <div th:if="${order.reps != null}">
+            <table>
+                <caption>Selected Rep Details</caption>
+                <tbody>
+                    <tr>
+                        <td>Reps ID:</td>
+                        <td th:text="${order.reps.repId} ?: 'N/A'"></td>
+                    </tr>
+                    <tr>
+                        <td>Reps Name:</td>
+                        <td th:text="${order.reps.repName} ?: 'N/A'"></td>
+                    </tr>
+                    <tr>
+                        <td>Reps Location:</td>
+                        <td th:text="${order.reps.repLocation} ?: 'N/A'"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Display Party Details -->
+        <div th:if="${order.party != null}">
+            <table>
+                <caption>Party Details</caption>
+                <tbody>
+                    <tr>
+                        <td>Party ID:</td>
+                        <td th:text="${order.party.partyId} ?: 'N/A'"></td>
+                    </tr>
+                    <tr>
+                        <td>Party Name:</td>
+                        <td th:text="${order.party.partyName} ?: 'N/A'"></td>
+                    </tr>
+                    <tr>
+                        <td>Party Location:</td>
+                        <td th:text="${order.party.partyLocation} ?: 'N/A'"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Display Order Line Items -->
+        <h3>Order Line Items</h3>
+        <table>
+            <caption>Order Line Items</caption>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Rate</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Warehouse Quantities</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="lineItem : ${order.orderLineItems}">
+                    <td th:text="${lineItem.product?.brandName} ?: 'N/A'"></td>
+                    <td th:text="${lineItem.rate}"></td>
+                    <td th:text="${lineItem.quantity}"></td>
+                    <td th:text="${lineItem.rate * lineItem.quantity}"></td>
+                    <td colspan="4">
+                        <table>
+                            <caption>Warehouse Quantities</caption>
+                            <thead>
+                                <tr>
+                                    <th>Warehouse Name</th>
+                                    <th>Quantity Taken</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="entry : ${lineItem.orderWarehouseQuantities}">
+                                    <td th:text="${entry.key.wareName}"></td>
+                                    <td th:text="${entry.value}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Display a message if there are no order line items -->
+        <h3 th:if="${#lists.isEmpty(order.orderLineItems)}">No order line items available.</h3>
+
+        <!-- Display Total Bill Amount and Total Order Quantity -->
+        <div th:if="${totalPrice != null or totalQuantities != null}">
+            <table>
+                <caption>Total Order Summary</caption>
+                <thead>
+                    <tr>
+                        <th>Details</th>
+                        <th>Amount/Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${totalQuantities != null and totalQuantities > 0}">
+                        <td>Total Order Quantity:</td>
+                        <td th:text="${totalQuantities}"></td>
+                    </tr>
+                    <tr th:if="${totalPrice != null and totalPrice > 0}">
+                        <td>Total Bill Amount:</td>
+                        <td th:text="${totalPrice}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Product Selection Dropdown -->
+        <form action="/inventorybilling/bookOrderShowTotalProductQuantity" method="post">
+            <input type="hidden" name="orderId" th:value="${order.orderId}" />
+            <div class="form-group">
+                <label for="selectedProduct">Select a Product:</label>
+                <select name="selectedProduct" id="selectedProduct" class="form-control">
+                    <option th:each="product : ${productList}" th:value="${product.productId}"
+                        th:text="${product.productId}+' - '+${product.brandName}+ ' - ' + ${product.pType}+ ' - ' + ${product.price}">
+                    </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-info">Add Product To Order</button>
+        </form>
+
+        <footer>
+            <!-- Add a Home button or other navigation options as needed -->
+            <a href="/inventorybilling/showLanding" class="btn btn-secondary">Home</a>
+            <a href="/inventorybilling/addProducts" class="btn btn-secondary">Add New Product</a>
+        </footer>
+        <!-- Owner Logo Container -->
+        <div id="owner-logo-container">
+            <img src="/inventorybilling/assets/software_owner_logo.png" alt="Your Company Logo" id="ownerlogo">
+        </div>
+    </div>
+</body>
+</html>
