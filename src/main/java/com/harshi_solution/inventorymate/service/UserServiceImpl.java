@@ -13,16 +13,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean login(String username, String password) {
-		return userRepository.findByEmail(username).getPassword().equals(password);
+		boolean result =userRepository.findByEmail(username).getPassword().equals(password);
+		return result;
 	}
 
 	@Override
 	public User saveUser(User user) {
-		// Convert user data to uppercase
-        user.setEmail(user.getEmail().toUpperCase());
-        user.setLastName(user.getLastName().toUpperCase());
-        user.setFirstName(user.getFirstName().toUpperCase());
-        user.setPassword(user.getPassword().toUpperCase());
+        user.setEmail(user.getEmail());
+        user.setLastName(user.getLastName());
+        user.setFirstName(user.getFirstName());
+        user.setPassword(user.getPassword());
         // Save the user
         return userRepository.save(user);
 	}

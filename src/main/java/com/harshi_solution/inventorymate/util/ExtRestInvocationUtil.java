@@ -25,10 +25,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.harshi_solution.inventorymate.external.model.response.BaseExtResponse;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j
+
 @Component
 public class ExtRestInvocationUtil {
 
@@ -41,10 +40,7 @@ public class ExtRestInvocationUtil {
 
 	@Autowired
 	private RestTemplate restTemplate;
-
-	@Autowired
-	private RestErrorManagerUtil serviceErrorHandler;
-
+	
 	public <T extends BaseExtResponse> T getData(final String url, Class<T> clazz, boolean... errorCustomization) {
 		return getData(url, clazz, null, errorCustomization);
 	}
@@ -69,7 +65,6 @@ public class ExtRestInvocationUtil {
 			throw e;
 		}
 		T response = responseEntity.getBody();
-		serviceErrorHandler.sendErrorIfExist(entity, response, errorCustomization);
 		return response;
 	}
 
@@ -82,7 +77,6 @@ public class ExtRestInvocationUtil {
 		setHeaders(requestHeaders);
 
 		U returnValue = postData(url, data, clazz, requestHeaders);
-		serviceErrorHandler.sendErrorIfExist(data, returnValue, errorCustomization);
 		return returnValue;
 	}
 
